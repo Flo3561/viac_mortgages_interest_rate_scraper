@@ -1,0 +1,33 @@
+name: DEBUG VIAC Mortgage Scraper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright + deps
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Run Debug Scraper
+        run: |
+          python debug_scraper.py || true
+
+      - name: Upload Debug Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-dumps
+          path: debug/
+          retention-days: 5

@@ -1,0 +1,15 @@
+[project]
+name = "viac-mortgages-interest-rate-scraper"
+version = "0.1.0"
+description = "VIAC Hypotheken-Zins-Scraper und Analyse-App"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "streamlit>=1.0",
+  "pandas>=1.5",
+  "altair>=5.0",
+  "playwright>=1.40",
+]
+
+[tool.uv]
+managed = true
