@@ -15,15 +15,18 @@ REGEX_SARON = re.compile(
     re.DOTALL | re.IGNORECASE,
 )
 
-# 5-year fixed: "5" near "Jahr/jährig" then nearest percentage
+# 5-year fixed: on viac.ch the rate PRECEDES its "Laufzeit 5 Jahre" label
+# (e.g. "Fest-Hypothek\n\n1.79%\n\nLaufzeit 5 Jahre\n\nFest-Hypothek\n\n1.94%\n\nLaufzeit 10 Jahre").
+# So we match a percentage followed by the 5-year anchor, without crossing
+# another "%" in between (which would belong to a different product card).
 REGEX_FIXED_5 = re.compile(
-    r"(?:5[- ]?j[äa]hrige?|5\s+Jahre?|Fest.{0,60}?\b5\b.{0,60}?[Jj]ahr).{0,300}?(\d+[.,]\d+)\s*%",
+    r"(\d+[.,]\d+)\s*%(?:(?!%).){0,120}?(?:Laufzeit\s*5\s*Jahre|5[- ]?j[äa]hrige|5\s+Jahre\b)",
     re.DOTALL | re.IGNORECASE,
 )
 
-# 10-year fixed: "10" near "Jahr/jährig" then nearest percentage
+# 10-year fixed: same logic as above, anchored on the 10-year label
 REGEX_FIXED_10 = re.compile(
-    r"(?:10[- ]?j[äa]hrige?|10\s+Jahre?|Fest.{0,60}?\b10\b.{0,60}?[Jj]ahr).{0,300}?(\d+[.,]\d+)\s*%",
+    r"(\d+[.,]\d+)\s*%(?:(?!%).){0,120}?(?:Laufzeit\s*10\s*Jahre|10[- ]?j[äa]hrige|10\s+Jahre\b)",
     re.DOTALL | re.IGNORECASE,
 )
 
